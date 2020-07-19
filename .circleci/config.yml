@@ -7,7 +7,6 @@ jobs:
       - image: circleci/ruby:2.5.1
     steps:
       - checkout
-      - run: "ruby -v"  # this is optional i am just checking ruby version here
       - run: "gem install bundler"
       - restore_cache: #here we look if key already exist if not then it will saved on save_cache
           key: v3-bundle-{{ checksum "Gemfile.lock" }}
