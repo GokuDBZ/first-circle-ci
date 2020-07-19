@@ -11,7 +11,7 @@ jobs:
       - run: bundler -v
       - restore_cache: #here we look if key already exist if not then it will saved on save_cache
           key: v3-bundle-{{ checksum "Gemfile.lock" }}
-      - run: "bundle install"
+      - run: "bundle _2.1.4_ install"
       - save_cache:
           key: v3-bundle-{{ checksum "Gemfile.lock" }}
           paths:
@@ -30,7 +30,7 @@ jobs:
       - checkout
       - restore_cache: #here we look if key already exist if not then it will saved on save_cache
           key: v3-bundle-{{ checksum "Gemfile.lock" }}
-      - run: "bundle install"
+      - run: "bundle _2.1.4_ install"
       - save_cache:
           key: v3-bundle-{{ checksum "Gemfile.lock" }}
           paths:
