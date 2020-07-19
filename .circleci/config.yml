@@ -22,6 +22,15 @@ jobs:
       - run: "gem install bundler"
       - run: "bundle install"
       - run: "echo hello world"
+
+workflows:
+  version: 2
+  build-test:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
     
     
     
