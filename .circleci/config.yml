@@ -13,8 +13,6 @@ jobs:
       - run: "echo hello world"
       
   test:
-    requires:
-      - buid
     docker:
       - image: circleci/ruby:2.5.1
     steps:
@@ -23,6 +21,8 @@ jobs:
       - run: "gem install bundler"
       - run: "bundle install"
       - run: "echo hello world"
+    requires:
+      - buid
     
     
 
