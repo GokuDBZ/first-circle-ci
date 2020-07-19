@@ -13,8 +13,6 @@ jobs:
       - run: "echo hello world"
       
   test:
-    requires:
-      - buid
     docker:
       - image: circleci/ruby:2.5.1
     
