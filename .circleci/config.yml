@@ -12,7 +12,7 @@ jobs:
       - run: "bundle install"
       - run: "echo hello world"
       - run: "mkdir my-work-sapce" # create workspce
-      - run: echo hello world > my-work-space/echo_text # file echo text in my-work-space
+      - run: echo "hello world" > my-work-space/echo_text # file echo text in my-work-space
       - persist_to_workspace:
           root: my-work-space
           paths: 
