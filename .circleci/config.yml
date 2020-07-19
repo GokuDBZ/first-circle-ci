@@ -19,9 +19,6 @@ jobs:
     steps:
       - checkout
       - run: "ruby -v"
-      - run: "gem install bundler"
-      - run: "bundle install"
-      - run: "ls"
       - run: "rspec test.rb"
 
 workflows:
