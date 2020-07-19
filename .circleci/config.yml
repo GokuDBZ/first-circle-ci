@@ -3,7 +3,6 @@ version: 2.1
 
 jobs:
   build:
-    working_directory: /first-circle-ci
     docker:
       - image: circleci/ruby:2.5.1
     steps:
@@ -17,6 +16,7 @@ jobs:
     docker:
       - image: circleci/ruby:2.5.1
     steps:
+      - checkout
       - run: "ruby -v"
       - run: "bundle install"
       - run: "rspec test.rb"
