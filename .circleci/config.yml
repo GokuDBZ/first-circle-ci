@@ -11,6 +11,12 @@ jobs:
       - run: "gem install bundler"
       - run: "bundle install"
       - run: "echo hello world"
+      - run: "mkdir my-work-sapce" # create workspce
+      - run: echo hello world > my-work-space/echo_text # file echo text in my-work-space
+      - persist_to_workspace:
+          root: my-work-space
+          paths: 
+            - echo_text
       
   test:
     docker:
@@ -20,6 +26,9 @@ jobs:
       - run: "ruby -v"
       - run: "bundle install"
       - run: "rspec test.rb"
+      - attach-workspace:
+          at: my-work-spce
+      - run: cat my-work-space/echo_text
 
 workflows:
   version: 2
