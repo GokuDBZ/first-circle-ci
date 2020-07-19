@@ -3,6 +3,7 @@ version: 2.1
 
 jobs:
   build:
+    working_directory: /first-circle-ci
     docker:
       - image: circleci/ruby:2.5.1
     steps:
@@ -13,6 +14,8 @@ jobs:
       - run: "echo hello world"
       
   test:
+    docker:
+      - image: circleci/ruby:2.5.1
     steps:
       - run: "ruby -v"
       - run: "bundle install"
