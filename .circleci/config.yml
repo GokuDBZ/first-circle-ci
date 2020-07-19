@@ -10,4 +10,19 @@ jobs:
       - run: "ruby -v"
       - run: "gem install bundler"
       - run: "bundle install"
-      - run: "echo hello world" 
+      - run: "echo hello world"
+      
+  test:
+    requires:
+      - buid
+    docker:
+      - image: circleci/ruby:2.5.1
+    steps:
+      - checkout
+      - run: "ruby -v"
+      - run: "gem install bundler"
+      - run: "bundle install"
+      - run: "echo hello world"
+    
+    
+
