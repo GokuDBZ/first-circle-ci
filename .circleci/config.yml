@@ -10,7 +10,7 @@ jobs:
       - run: sudo gem install bundler --default -v "2.1.4"
       - run: bundler -v
       - run: gem list bundler
-      #- run: bundle update --bundler
+      - run: bundle update --bundler
       - restore_cache: #here we look if key already exist if not then it will saved on save_cache
           key: v3-bundle-{{ checksum "Gemfile.lock" }}
       - run: "bundle _2.1.4_ install"
