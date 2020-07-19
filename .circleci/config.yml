@@ -7,12 +7,10 @@ jobs:
       - image: circleci/ruby:2.5.1
     steps:
       - checkout
-      - run: gem update --system
-      #- run: gem uninstall bundler
-      - run: gem environment
-      - run: gem list bundler
-      - run: bundler -v
-      - run: gem list bundler
+      - run: gem environment  #just for knowledge
+      - run: gem list bundler #just for knowledge
+      - run: bundler -v #just for knowledge
+      - run: gem list bundler #just for knowledge
       #- run: bundle update --bundler
       - restore_cache: #here we look if key already exist if not then it will saved on save_cache
           key: v3-bundle-{{ checksum "Gemfile.lock" }}
@@ -35,7 +33,7 @@ jobs:
       - checkout
       - restore_cache: #here we look if key already exist if not then it will saved on save_cache
           key: v3-bundle-{{ checksum "Gemfile.lock" }}
-      - run: "bundle _2.1.4_ install"
+      - run: "bundle install"
       - save_cache:
           key: v3-bundle-{{ checksum "Gemfile.lock" }}
           paths:
