@@ -27,7 +27,7 @@ jobs:
       - run: "bundle install"
       - run: "rspec test.rb"
       - attach_workspace:
-          at: my-work-spce
+          at: my-work-space
       - run: cat my-work-space/echo_text
 
 workflows:
