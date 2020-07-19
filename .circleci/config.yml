@@ -15,10 +15,10 @@ jobs:
   test:
     docker:
       - image: circleci/ruby:2.5.1
-    
     steps:
       - checkout
       - run: "ruby -v"
+      - run: "bundle install"
       - run: "rspec test.rb"
 
 workflows:
