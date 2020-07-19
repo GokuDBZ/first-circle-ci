@@ -1,0 +1,34 @@
+
+version: 2.1 # version specifying which circle ci infra we want to use
+
+jobs: # jobs is a package which inludes everyhting we want to do
+  build: # this is job build this will run first
+    docker: # this is a executor and everything we will be doing in a container. We can use other executor as well like machine
+      - image: circleci/ruby:2.5.1
+    steps: # now in steps we will specify what we want to do inisde a container
+      - checkout
+      - run: "ruby -v" # run will execute the commands on command line
+      - run: "gem install bundler"
+      - run: "bundle install"
+      - run: "echo hello world"
+      
+  test: # this is job test, in this job we will run our test
+    docker:
+      - image: circleci/ruby:2.5.1
+    steps:
+      - checkout
+      - run: "ruby -v"
+      - run: "bundle install"
+      - run: "rspec test.rb"
+
+workflows: # here we will define our workflow
+  version: 2 # which version
+  build-test:  #name of workflow
+    jobs:     # here we will specify jobs which will run in this work flow
+      - build # this is job build defined above
+      - test  # this is job test defined above
+    
+    
+    
+    
+

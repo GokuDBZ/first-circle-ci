@@ -7,24 +7,34 @@ jobs:
       - image: circleci/ruby:2.5.1
     steps:
       - checkout
-      - run: "ruby -v"
+      - run: "ruby -v"  # this is optional i am just checking ruby version here
       - run: "gem install bundler"
+      - restore_cache: #here we look if key already exist if not then it will saved on save_cache
+          key: v3-bundle-{{ checksum "Gemfile.lock" }}
       - run: "bundle install"
-      - run: "echo hello world"
+      - save_cache:
+          key: v3-bundle-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle # this is path where our all gems are located aftre bundle install, we are storing our keys also ther
       - run: mkdir -p my-work-space # create workspce
       - run: echo "hello world" > my-work-space/echo_text # file echo text in my-work-space
       - persist_to_workspace:
-          root: my-work-space
+          root: my-work-space # this is directory
           paths: 
-            - echo_text
+            - echo_text  # file in directory
       
   test:
     docker:
       - image: circleci/ruby:2.5.1
     steps:
       - checkout
-      - run: "ruby -v"
+      - restore_cache: #here we look if key already exist if not then it will saved on save_cache
+          key: v3-bundle-{{ checksum "Gemfile.lock" }}
       - run: "bundle install"
+      - save_cache:
+          key: v3-bundle-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle # this is path where our all gems are located aftre bundle install, we are storing our keys also ther
       - run: "rspec test.rb"
       - attach_workspace:
           at: my-work-space

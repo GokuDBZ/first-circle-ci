@@ -1,0 +1,50 @@
+
+version: 2.1 
+
+jobs: 
+  build: 
+    docker: 
+      - image: circleci/ruby:2.5.1
+    steps: 
+      - checkout
+      - run: "ruby -v" 
+      - run: "gem install bundler"
+      - run: "bundle install"
+      - run: "echo hello world"
+      - persist_to_workspace:   # we want to create workspace in whcih i want to keep some file and it will be accessbile by other jobs as well
+          root: my-work-space 
+          paths: 
+            - echo_text  
+      
+  test: 
+    docker:
+      - image: circleci/ruby:2.5.1
+    steps:
+      - checkout
+      - run: "ruby -v"
+      - run: "bundle install"
+      - run: "rspec test.rb"
+      - attach_workspace: # here i am attaching workspace from job build and accessing file echo_text
+          at: my-work-space
+      - run: cat my-work-space/echo_text
+
+workflows: 
+  version: 2 
+  build-test:  
+    jobs:     
+      - build:
+          filters: 
+            branches:
+              only:
+                - master
+      - test:
+          requires:
+            - build
+          filters:  
+            branches:
+              only:
+                - master
+    
+    
+    
+
