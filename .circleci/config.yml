@@ -20,6 +20,8 @@ jobs:
       - checkout
       - run: "ruby -v"
       - run: "rspec test.rb"
+      - run: "gem install bundler"
+      - run: "bundle install"
 
 workflows:
   version: 2
