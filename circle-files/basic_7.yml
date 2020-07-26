@@ -2,6 +2,21 @@
 
 version: 2.1
 
+commands:
+  save_ruby_cache:
+    steps:
+      - save_cache:
+          key: v3-bundle-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle # this is path where our all gems are located aftre bundle install, we are storing our keys also there
+  
+  restore_ruby_cache:
+    steps:
+      - restore_cache:
+          key: v3-bundle-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle # this is path where our all gems are located aftre bundle install, we are storing our keys also there
+  
 jobs:
   build:
     docker:
@@ -13,13 +28,9 @@ jobs:
       - run: bundler -v #just for knowledge
       - run: gem list bundler #just for knowledge
       #- run: bundle update --bundler
-      - restore_cache: #here we look if key already exist if not then it will saved on save_cache
-          key: v3-bundle-{{ checksum "Gemfile.lock" }}
+      - restore_ruby_cache  # this is a command see steps in it  above
       - run: "bundle install"
-      - save_cache:
-          key: v3-bundle-{{ checksum "Gemfile.lock" }}
-          paths:
-            - vendor/bundle # this is path where our all gems are located aftre bundle install, we are storing our keys also ther
+      - save_ruby_cache # this is a command see steps in it  above
       - run: mkdir -p my-work-space # create workspce
       - run: echo "hello world" > my-work-space/echo_text # file echo text in my-work-space
       - persist_to_workspace:

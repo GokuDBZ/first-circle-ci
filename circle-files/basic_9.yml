@@ -10,6 +10,16 @@
 
 version: 2.1 
 
+# if we have multiple environments then we can make multiple executors
+executors:
+  ruby_executor:
+    docker:
+      - image: circleci/ruby:2.5.1
+  
+  # python_executor: # we can any no of e
+  #   docker:
+  #     - image: python
+
 commands:
   install_gems_and_checkout:
     parameters:
@@ -22,29 +32,21 @@ commands:
       - run: "gem install bundler"
       - run: "bundle install"
       - run: echo "<< parameters.my_message  >>"
-
-executors:  # When we have different environemnts then we can use execuotrs instead of docker image we can use it
-  ruby_docker_image:
-    docker:
-      image: circleci/ruby:2.5.1
-
-  # python_docker_imgae:
-  #   docker:
-  #     image: python
   
 
 jobs: 
   build: 
-    executor: ruby_docker_image
+    executor: ruby_executor
     steps: 
       - install_gems_and_checkout:
           my_message: "this is build"
       
   test: 
-    executor: ruby_docker_image
+    docker:
+      - image: circleci/ruby:2.5.1
     steps:
       - install_gems_and_checkout:
-         my_message: this is test
+          my_message: "this is test"
       - run: rspec test.rb
 
 workflows: 
