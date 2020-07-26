@@ -1,14 +1,10 @@
-# we will learn about commands
-
-# Command is a collection of steps. It is useful for creating reusable steps which means steps which are common in multiple jobs
-# can be seperated out in a command and then call those steps using single command name
-
-
-# In basic_6.yml we have few same steps running in both jobs so we can just seperate them out in a command and use them with just onc command name
-
-
 
 version: 2.1 
+
+executors:
+  ruby_executor:
+    docker:
+      - image: circleci/ruby:2.5.1
 
 commands:
   install_gems_and_checkout:
@@ -26,8 +22,7 @@ commands:
 
 jobs: 
   build: 
-    docker: 
-      - image: circleci/ruby:2.5.1
+    executor: ruby_executor
     steps: 
       - install_gems_and_checkout:
           my_message: "this is build"
