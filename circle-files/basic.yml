@@ -3,7 +3,7 @@ version: 2.1 # version specifying which circle ci infra we want to use
 
 jobs: # jobs is a package which inludes everyhting we want to do
   build: # this is job build this will run first
-    docker: # this is a executor and everything we will be doing in a container
+    docker: # this is a executor and everything we will be doing in a container, it cab be a machine as well look in docs for info
       - image: circleci/ruby:2.5.1
     steps: # now in steps we will specify what we want to do inisde a container
       - checkout
