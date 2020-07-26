@@ -1,13 +1,14 @@
 
 version: 2.1 
 
+# if we have multiple environments then we can make multiple executors
 executors:
   ruby_executor:
     docker:
       - image: circleci/ruby:2.5.1
 
 commands:
-  install_gems_and_checkout:
+  checkout_and_install: #command for installing gems
     parameters:
       my_message:
         type: "string"
@@ -16,23 +17,42 @@ commands:
       - checkout
       - run: "ruby -v" 
       - run: "gem install bundler"
-      - run: "bundle install"
       - run: echo "<< parameters.my_message  >>"
+  
+  save_ruby_cache:
+    steps:
+      - save_cache:
+          key: v3-bundle-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle # this is path where our all gems are located aftre bundle install, we are storing our keys also there
+  
+  restore_ruby_cache:
+    steps:
+      - restore_cache:
+          key: v3-bundle-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle # this is path where our all gems are located aftre bundle install, we are storing our keys also there
   
 
 jobs: 
   build: 
     executor: ruby_executor
     steps: 
-      - install_gems_and_checkout:
+      - checkout_and_install:
           my_message: "this is build"
+      - restore_ruby_cache
+      - run: bundle install
+      - save_ruby_cache
       
   test: 
     docker:
       - image: circleci/ruby:2.5.1
     steps:
-      - install_gems_and_checkout:
+      - checkout_and_install:
           my_message: "this is test"
+      - restore_ruby_cache   # command for restoring cache
+      - run: bundle install
+      - save_ruby_cache  # command for saving chache
       - run: rspec test.rb
 
 workflows: 
