@@ -24,15 +24,24 @@ jobs:
     steps:
       - checkout
       - run: gem environment  #just for knowledge
+
       - run: gem list bundler #just for knowledge
+
       - run: bundler -v #just for knowledge
+
       - run: gem list bundler #just for knowledge
+
       #- run: bundle update --bundler
       - restore_ruby_cache  # this is a command see steps in it  above
+
       - run: "bundle install"
+
       - save_ruby_cache # this is a command see steps in it  above
+
       - run: mkdir -p my-work-space # create workspce
+
       - run: echo "hello world" > my-work-space/echo_text # file echo text in my-work-space
+
       - persist_to_workspace:
           root: my-work-space # this is directory
           paths: 
@@ -43,13 +52,10 @@ jobs:
       - image: circleci/ruby:2.5.1
     steps:
       - checkout
-      - restore_cache: #here we look if key already exist if not then it will saved on save_cache
-          key: v3-bundle-{{ checksum "Gemfile.lock" }}
+      #- run: bundle update --bundler
+      - restore_ruby_cache  # this is a command see steps in it  above
       - run: "bundle install"
-      - save_cache:
-          key: v3-bundle-{{ checksum "Gemfile.lock" }}
-          paths:
-            - vendor/bundle # this is path where our all gems are located aftre bundle install, we are storing our keys also ther
+      - restore_ruby_cache
       - run: "rspec test.rb"
       - attach_workspace:
           at: my-work-space
